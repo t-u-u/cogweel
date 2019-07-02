@@ -21,7 +21,7 @@ def calc_arc(radius=1, end_radius=None, start_angle=0, end_angle=1, precision=10
     """
     Generate points for a circular arc or Archimedean spiral
     If end_radius is omitted, circular arc would be calculated.
-    Start and end point are not included in result
+    Start and end points are not included in result
     :param radius:
     :param end_radius:
     :param start_angle:
@@ -49,7 +49,6 @@ def calc_arc(radius=1, end_radius=None, start_angle=0, end_angle=1, precision=10
 def calc_cog(inner_radius, outer_radius, start_angle, end_angle, gap_width, precision: int):
     """
     Generate points for one segment depending on given angles and radius.
-    Segment is always considered clockwise, use transformations for counter-clockwise
     :param inner_radius:
     :param outer_radius:
     :param start_angle:
@@ -101,8 +100,8 @@ def calc_cog(inner_radius, outer_radius, start_angle, end_angle, gap_width, prec
     cog_polar_points.extend(arc)
 
     # tail middle points
-    cog_polar_points.append((middle_radius - gap_width, end_angle))
     cog_polar_points.append((middle_radius + gap_width, end_angle))
+    cog_polar_points.append((middle_radius - gap_width, end_angle))
 
     # inner tail arc
     arc = calc_arc(radius=middle_radius - gap_width, end_radius=inner_radius, start_angle=end_angle,
