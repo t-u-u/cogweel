@@ -15,9 +15,11 @@ def pol2cart(r, theta):
 
 def calc_cogs(inner_radius, outer_radius, segment_count=6, gap_width=0.1, precision=10):
     step = 2*pi/segment_count
+    initial_shift = -pi/segment_count
+
     for i in range(segment_count):
-        start_angle = i*step
-        end_angle = (i+1)*step
+        start_angle = initial_shift + i*step
+        end_angle = initial_shift + (i+1)*step
         yield calc_cog(inner_radius, outer_radius, start_angle, end_angle, gap_width, precision)
 
 
@@ -67,32 +69,34 @@ def calc_cog(inner_radius, outer_radius, start_angle, end_angle, gap_width, prec
 
     cog_polar_points = []
 
-    #TODO: recalculate gap_radians from gap width to actual radians
-    outer_gap_radians = gap_width
-    middle_gap_radians = gap_width
-    inner_gap_radians = gap_width
-
     middle_radius = inner_radius + (outer_radius - inner_radius) / 2
+
+    # gap width in radians
+    outer_gap_radians = gap_width / outer_radius
+    middle_gap_radians = gap_width / middle_radius
+    inner_gap_radians = gap_width / inner_radius
+
     middle_angle = start_angle + (end_angle - start_angle) / 2
 
     #TODO: add separate angles for inner arcs
     start_nose_angle = start_angle + middle_gap_radians
-    start_side_angle = middle_angle + outer_gap_radians
+    start_outer_side_angle = middle_angle + outer_gap_radians
     end_side_angle = end_angle + (end_angle - start_angle) / 2
+    start_inner_side_angle = middle_angle + inner_gap_radians
 
     # nose point
     cog_polar_points.append((middle_radius, start_nose_angle))
 
     # nose outer arc
-    arc = calc_arc(radius=middle_radius, end_radius=outer_radius - gap_width, start_angle=start_nose_angle, end_angle=start_side_angle, precision=precision)
+    arc = calc_arc(radius=middle_radius, end_radius=outer_radius - gap_width, start_angle=start_nose_angle, end_angle=start_outer_side_angle, precision=precision)
     cog_polar_points.extend(arc)
 
     # outer side start points
-    cog_polar_points.append((outer_radius - gap_width, start_side_angle))
-    cog_polar_points.append((outer_radius, start_side_angle))
+    cog_polar_points.append((outer_radius - gap_width, start_outer_side_angle))
+    cog_polar_points.append((outer_radius, start_outer_side_angle))
 
     # outer side arc
-    arc = calc_arc(radius=outer_radius, start_angle=start_side_angle,
+    arc = calc_arc(radius=outer_radius, start_angle=start_outer_side_angle,
                    end_angle=end_side_angle, precision=2*precision)
     cog_polar_points.extend(arc)
 
@@ -118,15 +122,15 @@ def calc_cog(inner_radius, outer_radius, start_angle, end_angle, gap_width, prec
 
     # inner side arc
     arc = calc_arc(radius=inner_radius, start_angle=end_side_angle,
-                   end_angle=start_side_angle, precision=2*precision)
+                   end_angle=start_inner_side_angle, precision=2*precision)
     cog_polar_points.extend(arc)
 
     # inner side end points
-    cog_polar_points.append((inner_radius, start_side_angle))
-    cog_polar_points.append((inner_radius + gap_width, start_side_angle))
+    cog_polar_points.append((inner_radius, start_inner_side_angle))
+    cog_polar_points.append((inner_radius + gap_width, start_inner_side_angle))
 
     # nose inner arc
-    arc = calc_arc(radius=inner_radius + gap_width, end_radius=middle_radius, start_angle=start_side_angle,
+    arc = calc_arc(radius=inner_radius + gap_width, end_radius=middle_radius, start_angle=start_inner_side_angle,
                    end_angle=start_nose_angle, precision=precision)
     cog_polar_points.extend(arc)
 

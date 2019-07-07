@@ -8,8 +8,6 @@ from app.calc_form import calc_cogs, pi
 
 
 def main():
-    # cog_coords = calc_cog(6, 8, pi/6, pi/2, 0.1, 100)
-    # cog = KiCad_poly(cog_coords, layer='F.Cu')
     cogs = []
     for cog in calc_cogs(6, 8, 6, 0.1, 100):
         cogs.append(KiCad_poly(cog, layer='F.Cu'))
