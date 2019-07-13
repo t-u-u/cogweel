@@ -71,7 +71,7 @@ def parse_args():
                 v = float(args[k])
                 res[k] = v
         except ValueError:
-            print("Argument '{0}' is '{1}', but should be float".format(k, v))
+            print("Argument '{0}' is '{1}', but should be float".format(k, args[k]))
             quit()
 
     for k in int_params:
@@ -81,10 +81,11 @@ def parse_args():
                 res[k] = v
 
         except ValueError:
-            print("Argument '{0}' is '{1}', but should be integer".format(k, v))
+            print("Argument '{0}' is '{1}', but should be integer".format(k, args[k]))
             quit()
 
     return res
+
 
 def main():
     args = parse_args()
