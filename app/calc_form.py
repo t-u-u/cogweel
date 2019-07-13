@@ -13,14 +13,14 @@ def pol2cart(r, theta):
     return (x, y)
 
 
-def calc_cogs(inner_radius, outer_radius, segment_count=6, gap_width=0.1, precision=10):
+def calc_cogs(inner_radius, outer_radius, segment_count=6, nose_count=1, gap_width=0.1, precision=10):
     step = 2*pi/segment_count
     initial_shift = -pi/segment_count
 
     for i in range(segment_count):
         start_angle = initial_shift + i*step
         end_angle = initial_shift + (i+1)*step
-        yield calc_cog(inner_radius, outer_radius, start_angle, end_angle, gap_width, precision)
+        yield calc_cog(inner_radius, outer_radius, start_angle, end_angle, nose_count=nose_count, gap_width=gap_width, precision=precision)
 
 
 def calc_arc(radius=1, end_radius=None, start_angle=0, end_angle=1, precision=10):
@@ -52,9 +52,10 @@ def calc_arc(radius=1, end_radius=None, start_angle=0, end_angle=1, precision=10
 
 
 
-def calc_cog(inner_radius, outer_radius, start_angle, end_angle, gap_width, precision: int):
+def calc_cog(inner_radius, outer_radius, start_angle, end_angle, nose_count=1, gap_width=0.1, precision=10):
     """
     Generate points for one segment depending on given angles and radius.
+    :param nose_count:
     :param inner_radius:
     :param outer_radius:
     :param start_angle:
