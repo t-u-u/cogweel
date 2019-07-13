@@ -40,7 +40,6 @@ def create_KiCad_file(args):
     cogs = []
     for cog in calc_cogs(inner_radius, outer_radius, segment_count=segment_count, nose_count=nose_count, gap_width=gap_width, precision=precision):
         cogs.append(KiCad_poly(cog, layer=layer))
-    # cogs.append(KiCad_circle(center=(0, 0), endpoint=(0, 7), layer='F.SilkS', width=0.001))
     res = KiCad_format({'module {0}\n'.format(module_name): cogs})
 
     if not os.path.basename(output_file):
@@ -60,7 +59,6 @@ def create_KiCad_file(args):
 
 def parse_args():
     args = docopt(__doc__)
-    # print(args)
     string_params = ['--module', '--output', '--layer']
     float_params = ['<inner-radius>', '<outer-radius>', '--gap-width']
     int_params = ['--segments', '--noses', '--precision']
@@ -72,9 +70,7 @@ def parse_args():
             if args[k]:
                 v = float(args[k])
                 res[k] = v
-            # else:
-            #     res[k] = None
-        except TypeError:
+        except ValueError:
             print("Argument '{0}' is '{1}', but should be float".format(k, v))
             quit()
 
@@ -84,7 +80,7 @@ def parse_args():
                 v = int(args[k])
                 res[k] = v
 
-        except TypeError:
+        except ValueError:
             print("Argument '{0}' is '{1}', but should be integer".format(k, v))
             quit()
 
@@ -92,9 +88,8 @@ def parse_args():
 
 def main():
     args = parse_args()
-    # print(args)
     create_KiCad_file(args)
 
-# create_KiCad_file(7,9, 'Test')
+
 if __name__ == '__main__':
     main()
