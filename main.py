@@ -37,9 +37,6 @@ def create_KiCad_file(args):
     precision = args.get('--precision', 100)
     layer = args.get('--layer', 'F.Cu')
 
-    print(output_file)
-    print('_______________________________')
-
     cogs = []
     for cog in calc_cogs(inner_radius, outer_radius, segment_count=segment_count, nose_count=nose_count, gap_width=gap_width, precision=precision):
         cogs.append(KiCad_poly(cog, layer=layer))
@@ -63,12 +60,12 @@ def create_KiCad_file(args):
 
 def parse_args():
     args = docopt(__doc__)
-    print(args)
+    # print(args)
     string_params = ['--module', '--output', '--layer']
     float_params = ['<inner-radius>', '<outer-radius>', '--gap-width']
     int_params = ['--segments', '--noses', '--precision']
 
-    res = {p: args[p] for p in string_params}
+    res = {p: args[p] for p in string_params if args[p]}
 
     for k in float_params:
         try:
@@ -95,7 +92,7 @@ def parse_args():
 
 def main():
     args = parse_args()
-    print(args)
+    # print(args)
     create_KiCad_file(args)
 
 # create_KiCad_file(7,9, 'Test')
