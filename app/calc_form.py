@@ -1,4 +1,5 @@
-from numpy import cos, sin, pi
+# from numpy import cos, sin, pi
+from math import cos, sin, pi
 
 
 def pol2cart(r, theta):
@@ -79,7 +80,6 @@ def calc_cog(inner_radius, outer_radius, start_angle, end_angle, nose_count=1, g
 
     middle_angle = start_angle + (end_angle - start_angle) / 2
 
-    #TODO: add separate angles for inner arcs
     start_nose_angle = start_angle + middle_gap_radians
     start_outer_side_angle = middle_angle + outer_gap_radians
     end_side_angle = end_angle + (end_angle - start_angle) / 2
