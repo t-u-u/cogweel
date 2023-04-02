@@ -1,5 +1,5 @@
 # cogwheel
-
+'''
 Create specific form for KiCad Footprint
 Usage:
     main.py <inner-radius> <outer-radius> [options]
@@ -15,3 +15,4 @@ Options:
     -g --gap-width <gap-width>  width of the gap between segments, 0.1 by default
     -p --precision <precision>  how many dots on the element would be used for approximation
     -l --layer <layer>          name of KiCad layer, 'F.Cu' by default
+'''
